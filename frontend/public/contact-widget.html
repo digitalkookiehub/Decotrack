@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form - DecoTrack Lead Capture</title>
+  <style>
+    .dt-contact-form {
+      max-width: 400px;
+      margin: 0 auto;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 24px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .dt-contact-form h3 {
+      margin: 0 0 16px;
+      font-size: 18px;
+      color: #111827;
+    }
+    .dt-contact-form label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+    .dt-contact-form input,
+    .dt-contact-form textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    .dt-contact-form input:focus,
+    .dt-contact-form textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
+    }
+    .dt-contact-form button {
+      width: 100%;
+      padding: 10px;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .dt-contact-form button:hover {
+      background: #4338ca;
+    }
+    .dt-contact-form button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .dt-contact-form .dt-success {
+      padding: 12px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 6px;
+      color: #065f46;
+      font-size: 14px;
+      text-align: center;
+    }
+    .dt-contact-form .dt-error {
+      padding: 8px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      color: #991b1b;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<!--
+  EMBED THIS FORM ON YOUR WEBSITE
+  ================================
+  1. Copy the <div id="dt-contact-form"> section below
+  2. Copy the <script> section
+  3. Change DECOTRACK_API_URL to your DecoTrack server URL
+  4. Paste into your website HTML
+
+  Every form submission auto-creates a lead in DecoTrack CRM!
+-->
+
+<div id="dt-contact-form" class="dt-contact-form">
+  <h3>Get a Free Quote</h3>
+  <div id="dt-form-content">
+    <div>
+      <label for="dt-name">Name *</label>
+      <input type="text" id="dt-name" placeholder="Your name" required>
+    </div>
+    <div>
+      <label for="dt-phone">Phone *</label>
+      <input type="tel" id="dt-phone" placeholder="+91 98765 43210" required>
+    </div>
+    <div>
+      <label for="dt-email">Email</label>
+      <input type="email" id="dt-email" placeholder="you@example.com">
+    </div>
+    <div>
+      <label for="dt-city">City</label>
+      <input type="text" id="dt-city" placeholder="Your city">
+    </div>
+    <div>
+      <label for="dt-message">Message</label>
+      <textarea id="dt-message" rows="3" placeholder="Tell us about your project..."></textarea>
+    </div>
+    <button type="button" id="dt-submit">Send Inquiry</button>
+  </div>
+  <div id="dt-success" class="dt-success" style="display:none;">
+    Thank you! We'll get back to you shortly.
+  </div>
+  <div id="dt-error" class="dt-error" style="display:none;"></div>
+</div>
+
+<script>
+(function() {
+  // ===== CHANGE THESE TO YOUR DECOTRACK SETTINGS =====
+  var DECOTRACK_API_URL = 'http://localhost:8000/api/v1';
+  var DECOTRACK_API_KEY = '';  // Set your CRM API key here
+  // ====================================================
+
+  var btn = document.getElementById('dt-submit');
+  var errorDiv = document.getElementById('dt-error');
+  var successDiv = document.getElementById('dt-success');
+  var formContent = document.getElementById('dt-form-content');
+
+  btn.addEventListener('click', function() {
+    var name = document.getElementById('dt-name').value.trim();
+    var phone = document.getElementById('dt-phone').value.trim();
+    var email = document.getElementById('dt-email').value.trim();
+    var city = document.getElementById('dt-city').value.trim();
+    var message = document.getElementById('dt-message').value.trim();
+
+    errorDiv.style.display = 'none';
+
+    if (!name || !phone) {
+      errorDiv.textContent = 'Name and phone are required.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    var headers = { 'Content-Type': 'application/json' };
+    if (DECOTRACK_API_KEY) headers['X-Api-Key'] = DECOTRACK_API_KEY;
+
+    fetch(DECOTRACK_API_URL + '/crm/public/website-lead', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        email: email || null,
+        city: city || null,
+        message: message || null,
+        page_url: window.location.href
+      })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Server error');
+      return res.json();
+    })
+    .then(function() {
+      formContent.style.display = 'none';
+      successDiv.style.display = 'block';
+    })
+    .catch(function() {
+      errorDiv.textContent = 'Something went wrong. Please call us directly.';
+      errorDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Inquiry';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
