@@ -16,6 +16,9 @@ import {
   Scissors,
   UserPlus,
   Phone,
+  Ruler,
+  Receipt,
+  Sparkles,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
@@ -278,6 +281,7 @@ export function DashboardPage() {
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
             {[
               { label: "CRM", sub: "Lead → Follow-up → Client", color: "bg-pink-100 text-pink-700 border-pink-300", to: "/crm" },
+              { label: "Quotation", sub: "Line items → PDF", color: "bg-rose-100 text-rose-700 border-rose-300", to: "/quotations" },
               { label: "Project", sub: "Client + Room items", color: "bg-indigo-100 text-indigo-700 border-indigo-300", to: "/projects" },
               { label: "Purchase", sub: "PO → Approve → GRN", color: "bg-blue-100 text-blue-700 border-blue-300", to: "/purchase-orders" },
               { label: "Work Order", sub: "Material check → Approve", color: "bg-purple-100 text-purple-700 border-purple-300", to: "/work-orders" },
@@ -304,7 +308,7 @@ export function DashboardPage() {
               <div className="rounded-lg border border-indigo-200 bg-white p-3">
                 <p className="font-semibold text-indigo-700 text-xs mb-2">Path 1: Own Project (Your Client)</p>
                 <div className="flex flex-wrap items-center gap-1 text-[10px]">
-                  {["CRM Lead", "→", "Client", "→", "Project", "→", "PO (buy materials)", "→", "WO (material check)", "→", "Cut Planner (Job Mode)", "→", "Production", "→", "Dispatch", "→", "Delivery"].map((s, i) => (
+                  {["CRM Lead", "→", "Quotation", "→", "Client", "→", "Project", "→", "PO (buy materials)", "→", "WO (material check)", "→", "Cut Planner (Job Mode)", "→", "Production", "→", "Dispatch", "→", "Delivery"].map((s, i) => (
                     <span key={i} className={s === "→" ? "text-gray-300" : "rounded bg-indigo-50 border border-indigo-100 px-1.5 py-0.5"}>{s}</span>
                   ))}
                 </div>
@@ -328,15 +332,18 @@ export function DashboardPage() {
                 <PhoneCall className="h-4 w-4" /> CRM
               </h4>
               <div className="space-y-2 text-xs text-pink-900">
-                <Step n={1}>Customer calls / WhatsApp / website form → <strong>Lead auto-created</strong></Step>
+                <Step n={1}>Call / WhatsApp / website form → <strong>Lead auto-created</strong> (🤖 AI reads WhatsApp messages — fills city + budget, drafts a summary and suggested reply)</Step>
                 <Step n={2}>Log calls, schedule <strong>follow-ups</strong> with push reminders</Step>
-                <Step n={3}>Pipeline: <strong>New → Contacted → Site Visit → Quote → Negotiation → Won</strong></Step>
-                <Step n={4}>Won → <strong>auto-creates Client + Project</strong></Step>
+                <Step n={3}>Pipeline: <strong>New → Contacted → Site Visit → Measurement → Quotation Sent → Negotiation → Won/Lost</strong></Step>
+                <Step n={4}>Site visit → 🤖 <strong>photograph the measurement sheet</strong>, AI reads each room's dimensions</Step>
+                <Step n={5}>Send a <strong>Quotation</strong> (line items → PDF, auto-numbered QT-YYYY-NNNN)</Step>
+                <Step n={6}>Won → <strong>auto-creates Client + Project</strong></Step>
               </div>
-              <div className="mt-3 flex gap-2">
+              <div className="mt-3 flex gap-2 flex-wrap">
                 <Link to="/crm"><Button size="sm" variant="outline" className="text-xs h-7">CRM</Button></Link>
                 <Link to="/crm/quick-log"><Button size="sm" variant="outline" className="text-xs h-7">Log Call</Button></Link>
                 <Link to="/crm/leads?new=true"><Button size="sm" variant="outline" className="text-xs h-7">New Lead</Button></Link>
+                <Link to="/quotations/new"><Button size="sm" variant="outline" className="text-xs h-7">New Quotation</Button></Link>
               </div>
             </div>
 
@@ -385,7 +392,7 @@ export function DashboardPage() {
               </h4>
               <div className="space-y-2 text-xs text-orange-900">
                 <Step n={1}>Enter panels (with 🌾 grain lock) + multiple stock sheet sizes</Step>
-                <Step n={2}>Options: blade kerf, guillotine/free cut, CSV import/export</Step>
+                <Step n={2}>Options: blade kerf, guillotine/free cut, CSV import/export, or 🤖 <strong>photograph a handwritten cutting list</strong> — AI reads it into the panel table</Step>
                 <Step n={3}><strong>Quick Mode</strong>: instant calculate, no save (like a calculator)</Step>
                 <Step n={4}><strong>Job Mode</strong>: saves as <strong>Cut Order (CO-xxxx)</strong> + auto-creates WO</Step>
                 <Step n={5}>Own Project or Contract Job (with contractor details)</Step>
@@ -408,7 +415,7 @@ export function DashboardPage() {
                 <Step n={3}><strong>Factory photos</strong> per item → confirm loading</Step>
                 <Step n={4}>Auto-generates <strong>delivery link</strong> for driver (no app needed)</Step>
                 <Step n={5}>Driver uploads <strong>delivery photos</strong> → mark delivered</Step>
-                <Step n={6}>Employee reviews photos → <strong>confirm delivery</strong></Step>
+                <Step n={6}>🤖 Photo GPS checked against delivery address (flagged, not blocked, if far off) → employee reviews → <strong>confirm delivery</strong></Step>
               </div>
               <div className="mt-3">
                 <Link to="/dispatches/new"><Button size="sm" variant="outline" className="text-xs h-7">New Dispatch</Button></Link>
@@ -436,6 +443,53 @@ export function DashboardPage() {
             </div>
           </div>
 
+          <div className="grid gap-4 md:grid-cols-3 mt-4">
+            {/* Elevation */}
+            <div className="rounded-lg border border-cyan-200 bg-cyan-50/50 p-4">
+              <h4 className="font-semibold text-cyan-800 mb-3 flex items-center gap-2">
+                <Ruler className="h-4 w-4" /> Elevation
+              </h4>
+              <div className="space-y-2 text-xs text-cyan-900">
+                <Step n={1}>Open a product/room → enter module widths & dimensions</Step>
+                <Step n={2}><strong>Generate</strong> a front-view elevation drawing</Step>
+                <Step n={3}>Share with client or carpenter as an image/PDF</Step>
+              </div>
+              <div className="mt-3">
+                <Link to="/elevation"><Button size="sm" variant="outline" className="text-xs h-7">Elevation</Button></Link>
+              </div>
+            </div>
+
+            {/* Expenses */}
+            <div className="rounded-lg border border-lime-200 bg-lime-50/50 p-4">
+              <h4 className="font-semibold text-lime-800 mb-3 flex items-center gap-2">
+                <Receipt className="h-4 w-4" /> Expenses
+              </h4>
+              <div className="space-y-2 text-xs text-lime-900">
+                <Step n={1}>Log project costs — transport, labor, misc site expenses</Step>
+                <Step n={2}>Attach each expense to a <strong>project</strong> for accurate costing</Step>
+                <Step n={3}>Rolls up into project & purchase <strong>reports</strong></Step>
+              </div>
+              <div className="mt-3">
+                <Link to="/expenses"><Button size="sm" variant="outline" className="text-xs h-7">Expenses</Button></Link>
+              </div>
+            </div>
+
+            {/* Reports */}
+            <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+              <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" /> Reports
+              </h4>
+              <div className="space-y-2 text-xs text-slate-900">
+                <Step n={1}>Stock summary, purchases, wastage, dispatches</Step>
+                <Step n={2}><strong>Audit trail</strong> — every approval action, logged</Step>
+                <Step n={3}>Export for accounting / management review</Step>
+              </div>
+              <div className="mt-3">
+                <Link to="/reports"><Button size="sm" variant="outline" className="text-xs h-7">Reports</Button></Link>
+              </div>
+            </div>
+          </div>
+
           {/* Approval Gates */}
           <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 p-4">
             <h4 className="font-semibold text-amber-800 mb-2 text-sm">3 Approval Gates (Multi-Admin, Race-Condition Safe)</h4>
@@ -456,17 +510,47 @@ export function DashboardPage() {
             <p className="text-[10px] text-amber-700 mt-2">All admins notified → first to act locks it → 4-hour escalation reminders</p>
           </div>
 
+          {/* AI Features */}
+          <div className="mt-4 rounded-lg bg-violet-50 border border-violet-200 p-4">
+            <h4 className="font-semibold text-violet-800 mb-2 text-sm flex items-center gap-2">
+              <Sparkles className="h-4 w-4" /> AI Features (Gemini-powered)
+            </h4>
+            <div className="grid gap-3 text-xs text-violet-900 md:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <p className="font-medium">CRM → WhatsApp lead</p>
+                <p className="opacity-75">Reads the message, fills city + budget, drafts a summary and suggested reply</p>
+              </div>
+              <div>
+                <p className="font-medium">CRM → Measurement stage</p>
+                <p className="opacity-75">Photograph a handwritten measurement sheet — reads each room's dimensions</p>
+              </div>
+              <div>
+                <p className="font-medium">Cut Planner</p>
+                <p className="opacity-75">Photograph a cutting list — reads label/length/width/qty into the panel table</p>
+              </div>
+              <div>
+                <p className="font-medium">Dispatch photos</p>
+                <p className="opacity-75">Delivery photo GPS checked against address — flagged (not blocked) if far off</p>
+              </div>
+            </div>
+            <p className="text-[10px] text-violet-700 mt-2">Every AI suggestion is reviewed by a person before anything is finalized — nothing auto-sends or auto-approves.</p>
+          </div>
+
           {/* Key Features Summary */}
           <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
               { label: "FIFO Inventory", desc: "Oldest batch consumed first" },
-              { label: "Auto-Numbering", desc: "PO/WO/CO/DSP-YYYY-NNNN" },
+              { label: "Auto-Numbering", desc: "PO/WO/CO/QT/DSP-YYYY-NNNN" },
               { label: "Photo Verification", desc: "Loading + delivery photos" },
               { label: "WhatsApp Alerts", desc: "Contract job completion" },
               { label: "CSV Import", desc: "Bulk panel/part entry" },
-              { label: "PDF Export", desc: "Cut plans with layouts" },
+              { label: "PDF Export", desc: "Cut plans & quotations" },
               { label: "Grain Direction", desc: "Lock rotation per panel" },
               { label: "Material Check", desc: "Blocks WO if stock short" },
+              { label: "Quotation PDF", desc: "Line items, auto-numbered" },
+              { label: "Product Elevation", desc: "Front-view drawings" },
+              { label: "Expense Tracking", desc: "Per-project cost logging" },
+              { label: "GPS Geofence Check", desc: "Delivery photo vs address" },
             ].map((f) => (
               <div key={f.label} className="rounded border border-gray-100 bg-white px-3 py-2">
                 <p className="text-xs font-semibold text-gray-800">{f.label}</p>
@@ -474,6 +558,14 @@ export function DashboardPage() {
               </div>
             ))}
           </div>
+
+          {isAdmin() && (
+            <div className="mt-4 text-right">
+              <Link to="/admin/flow-guide" className="text-xs text-indigo-600 hover:text-indigo-800 hover:underline">
+                See the full Flow Guide →
+              </Link>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
