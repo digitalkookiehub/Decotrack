@@ -12,6 +12,8 @@ import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 // Real pages
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { MaterialListPage } from "./pages/inventory/MaterialListPage";
+import { MaterialCreatePage } from "./pages/inventory/MaterialCreatePage";
+import { MaterialDetailPage } from "./pages/inventory/MaterialDetailPage";
 import { ReorderAlertPage } from "./pages/inventory/ReorderAlertPage";
 import { VendorListPage } from "./pages/vendors/VendorListPage";
 import { POListPage } from "./pages/purchase-orders/POListPage";
@@ -107,6 +109,8 @@ function App() {
 
               {/* Inventory — REAL PAGES */}
               <Route path="inventory/materials" element={<MaterialListPage />} />
+              <Route path="inventory/materials/new" element={<MaterialCreatePage />} />
+              <Route path="inventory/materials/:id" element={<MaterialDetailPage />} />
               <Route path="inventory/alerts" element={<ReorderAlertPage />} />
 
               {/* Vendors — REAL PAGE */}
