@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Phone, Mail, MapPin, FileText, Edit2, Building2 } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, FileText, Edit2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";

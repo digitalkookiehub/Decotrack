@@ -19,7 +19,6 @@ export function WODetailPage() {
   const { isAdmin } = useAuth();
   const [wo, setWO] = useState<Record<string, unknown> | null>(null);
   const [materialCheck, setMaterialCheck] = useState<Array<Record<string, unknown>> | null>(null);
-  const [cutOrders, setCutOrders] = useState<Array<Record<string, unknown>>>([]);
   const [loading, setLoading] = useState(true);
   const [rejectReason, setRejectReason] = useState("");
   const [showRejectForm, setShowRejectForm] = useState(false);
@@ -100,7 +99,7 @@ export function WODetailPage() {
                 <StatusBadge status={status} />
                 <span className="text-xl font-bold">{formatINR(wo.estimated_material_cost as number)}</span>
               </div>
-              {wo.rejection_reason && (
+              {Boolean(wo.rejection_reason) && (
                 <div className="rounded-md bg-red-50 border border-red-200 p-3 mb-4">
                   <p className="text-sm text-red-800"><strong>Rejected:</strong> {wo.rejection_reason as string}</p>
                 </div>
@@ -108,7 +107,7 @@ export function WODetailPage() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div><span className="text-gray-500">Created by:</span> <span className="font-medium">{wo.creator_name as string}</span></div>
                 <div><span className="text-gray-500">Created:</span> <span>{formatDateTime(wo.created_at as string)}</span></div>
-                {wo.approver_name && <div><span className="text-gray-500">Approved by:</span> <span className="font-medium">{wo.approver_name as string}</span></div>}
+                {Boolean(wo.approver_name) && <div><span className="text-gray-500">Approved by:</span> <span className="font-medium">{wo.approver_name as string}</span></div>}
               </div>
             </CardContent>
           </Card>
@@ -229,7 +228,7 @@ export function WODetailPage() {
                       <div className="text-xs">
                         <p className="font-medium">{(log.action as string).replace(/_/g, " ")}</p>
                         <p className="text-gray-500">by {log.performer_name as string}</p>
-                        {log.comments && <p className="text-gray-600 italic">"{log.comments as string}"</p>}
+                        {Boolean(log.comments) && <p className="text-gray-600 italic">"{log.comments as string}"</p>}
                         <p className="text-gray-400">{formatDateTime(log.created_at as string)}</p>
                       </div>
                     </div>

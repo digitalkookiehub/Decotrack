@@ -7,9 +7,7 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Badge } from "../../components/ui/badge";
 import { PageHeader } from "../../components/shared/PageHeader";
-import { formatINR } from "../../lib/currency";
 import api from "../../services/api";
 
 interface Project {

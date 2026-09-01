@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Plus, Search, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";

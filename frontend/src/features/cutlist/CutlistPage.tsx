@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import {
-  Play, Plus, Trash2, Save, ChevronDown, ChevronUp,
-  Menu, Upload, Download, Settings, X, FileText, Eraser,
+  Play, Plus, Trash2, ChevronDown, ChevronUp,
+  Menu, Upload, Download, Settings, FileText, Eraser,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../../components/ui/dialog";
 import api from "../../services/api";
 import toast from "react-hot-toast";

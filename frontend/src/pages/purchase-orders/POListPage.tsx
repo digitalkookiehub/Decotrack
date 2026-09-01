@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Plus, Search, FileText } from "lucide-react";
+import { Plus, FileText } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { StatusBadge } from "../../components/shared/StatusBadge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";

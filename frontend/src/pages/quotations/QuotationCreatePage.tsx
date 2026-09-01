@@ -32,8 +32,8 @@ export function QuotationCreatePage() {
 
   const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientAddress, setClientAddress] = useState("");
+  const [clientEmail] = useState("");
+  const [clientAddress] = useState("");
   const [clientArea, setClientArea] = useState("");
   const [followUpBy, setFollowUpBy] = useState("");
   const [projectDesc, setProjectDesc] = useState("");

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Phone, FolderKanban, FileText, Truck, LogOut, ChevronRight } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { Badge } from "../../components/ui/badge";
 import { formatINR } from "../../lib/currency";
 import { formatDate } from "../../lib/date";
 import api from "../../services/api";

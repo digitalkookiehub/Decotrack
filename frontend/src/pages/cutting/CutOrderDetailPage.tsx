@@ -6,7 +6,6 @@ import { Badge } from "../../components/ui/badge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";
 import api from "../../services/api";
-import { formatINR } from "../../lib/currency";
 import { formatDateTime } from "../../lib/date";
 import toast from "react-hot-toast";
 
@@ -108,7 +107,6 @@ export function CutOrderDetailPage() {
       // Rotate sheet 90° for portrait — long side runs vertically
       const sheetW = origSheetH;  // becomes width on page
       const sheetH = origSheetW;  // becomes height on page
-      const rotated = true;
 
       const rightX = pageW - margin;
       const today = new Date().toLocaleDateString("en-IN");
@@ -333,8 +331,6 @@ export function CutOrderDetailPage() {
   if (loading) return <LoadingSpinner />;
   if (!order || !layout) return <div className="p-8 text-center text-gray-500">Cut order not found</div>;
 
-  const today = new Date().toLocaleDateString("en-IN");
-
   return (
     <div className="space-y-6">
       <PageHeader
@@ -398,7 +394,6 @@ export function CutOrderDetailPage() {
             clientName={order.product_type || ""}
             jobType={order.job_type}
             companyName={order.company_name || ""}
-            cuttingList={order.panels}
           />
         ))}
       </div>
@@ -408,19 +403,17 @@ export function CutOrderDetailPage() {
 
 function SheetPage({
   sheet, sheetWmm, sheetHmm, orientation, totalSheets, totalPieces, jobWaste,
-  materialName, orderNumber, clientName, jobType, companyName, cuttingList,
+  materialName, orderNumber, clientName, jobType, companyName,
 }: {
   sheet: SheetLayout; sheetWmm: number; sheetHmm: number; orientation: "landscape" | "portrait";
   totalSheets: number; totalPieces: number; jobWaste: number;
   materialName: string; orderNumber: string; clientName: string;
   jobType: string; companyName: string;
-  cuttingList: { label: string; width: number; height: number; qty: number }[];
 }) {
   const sheetPieceIds = [...new Set(sheet.placed_pieces.map((p) => p.piece_id))];
   const sheetCuttingList = sheetPieceIds.map((pid) => {
     const piece = sheet.placed_pieces.find((p) => p.piece_id === pid)!;
     const count = sheet.placed_pieces.filter((p) => p.piece_id === pid).length;
-    const orig = cuttingList[pid];
     return {
       symbol: SYMBOLS[pid % 26],
       length: Math.round(piece.rotated ? piece.height : piece.width),

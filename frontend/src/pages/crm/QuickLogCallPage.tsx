@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Phone, Search, UserPlus, ArrowLeft } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { Badge } from "../../components/ui/badge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import api from "../../services/api";
 import { formatRelative } from "../../lib/date";

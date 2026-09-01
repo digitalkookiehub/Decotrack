@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Package, ShoppingCart, AlertTriangle, Factory, Trash2, Truck, FileText, BarChart3 } from "lucide-react";
+import { Package, ShoppingCart, Trash2, Truck, FileText } from "lucide-react";
 import { Card, CardContent } from "../../components/ui/card";
 import { PageHeader } from "../../components/shared/PageHeader";
 

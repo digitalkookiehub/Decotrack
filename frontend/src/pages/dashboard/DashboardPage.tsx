@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Package,
   ShoppingCart,
   FolderKanban,
   Factory,
@@ -566,7 +565,7 @@ function DashboardCharts({ charts }: { charts: Record<string, unknown> }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis type="number" tick={{ fontSize: 10 }} />
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 9 }} width={120} />
-                <Tooltip formatter={(v: number) => `₹${v.toLocaleString("en-IN")}`} />
+                <Tooltip formatter={(v) => `₹${Number(v).toLocaleString("en-IN")}`} />
                 <Bar dataKey="value" fill="#f59e0b" radius={[0, 3, 3, 0]} />
               </BarChart>
             </ResponsiveContainer>

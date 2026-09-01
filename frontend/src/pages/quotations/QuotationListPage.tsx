@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, FileText, Trash2, Download } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { Badge } from "../../components/ui/badge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";
 import { EmptyState } from "../../components/shared/EmptyState";

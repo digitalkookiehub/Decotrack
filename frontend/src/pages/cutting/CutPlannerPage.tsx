@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
-  Play, Plus, Trash2, Save, Download, ChevronDown, ChevronUp,
-  Menu, Upload, Settings, Eraser, FileText, Scissors,
+  Play, Trash2, Save, Download, ChevronDown, ChevronUp,
+  Menu, Settings, Scissors,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../../components/ui/dialog";
 import api from "../../services/api";
 import toast from "react-hot-toast";
@@ -312,9 +311,6 @@ export function CutPlannerPage() {
       const { jsPDF } = await import("jspdf");
       const pdf = new jsPDF("l", "mm", "a4");
       const pageW = 297; const pageH = 210; const margin = 10;
-      const vs = getValidSheets();
-      const sheetL = Number(vs[0]?.length || 2400); const sheetW = Number(vs[0]?.width || 1200);
-
       for (let si = 0; si < result.sheets.length; si++) {
         if (si > 0) pdf.addPage();
         const sheet = result.sheets[si];

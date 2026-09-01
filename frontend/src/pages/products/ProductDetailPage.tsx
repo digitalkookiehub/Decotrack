@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Box } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -78,7 +78,7 @@ export function ProductDetailPage() {
             <CardContent className="space-y-3 text-sm">
               <div><span className="text-gray-500">Category:</span> <span className="font-medium">{product.category_name as string ?? "—"}</span></div>
               <div><span className="text-gray-500">Unit:</span> <Badge variant="secondary">{product.unit as string}</Badge></div>
-              {product.description && <div><span className="text-gray-500">Description:</span> <p className="mt-1 text-gray-700">{product.description as string}</p></div>}
+              {Boolean(product.description) && <div><span className="text-gray-500">Description:</span> <p className="mt-1 text-gray-700">{product.description as string}</p></div>}
             </CardContent>
           </Card>
 

@@ -4,9 +4,7 @@ import { ArrowLeft, Check, X, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Badge } from "../../components/ui/badge";
 import { Textarea } from "../../components/ui/textarea";
-import { Separator } from "../../components/ui/separator";
 import { StatusBadge } from "../../components/shared/StatusBadge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";
@@ -138,7 +136,7 @@ export function PODetailPage() {
                 <StatusBadge status={status} />
                 <span className="text-2xl font-bold">{formatINR(po.total_amount as number)}</span>
               </div>
-              {po.rejection_reason && (
+              {Boolean(po.rejection_reason) && (
                 <div className="rounded-md bg-red-50 border border-red-200 p-3 mb-4">
                   <p className="text-sm text-red-800">
                     <strong>Rejected:</strong> {po.rejection_reason as string}
@@ -154,13 +152,13 @@ export function PODetailPage() {
                   <span className="text-gray-500">Created:</span>{" "}
                   <span>{formatDateTime(po.created_at as string)}</span>
                 </div>
-                {po.approver_name && (
+                {Boolean(po.approver_name) && (
                   <div>
                     <span className="text-gray-500">Approved by:</span>{" "}
                     <span className="font-medium">{po.approver_name as string}</span>
                   </div>
                 )}
-                {po.approved_at && (
+                {Boolean(po.approved_at) && (
                   <div>
                     <span className="text-gray-500">Approved:</span>{" "}
                     <span>{formatDateTime(po.approved_at as string)}</span>
@@ -279,7 +277,7 @@ export function PODetailPage() {
                         <p className="text-gray-500">
                           by {log.performer_name as string}
                         </p>
-                        {log.comments && (
+                        {Boolean(log.comments) && (
                           <p className="text-gray-600 mt-0.5 italic">"{log.comments as string}"</p>
                         )}
                         <p className="text-gray-400 mt-0.5">

@@ -28,6 +28,7 @@ interface Client {
 
 interface Project {
   id: number;
+  client_id: number;
   project_number: string;
   name: string;
   status: string;
@@ -55,7 +56,7 @@ export function ClientDetailPage() {
       setForm(clientRes.data);
       // Filter projects for this client
       const clientProjects = (projectsRes.data.items as Project[]).filter(
-        (p: Record<string, unknown>) => p.client_id === parseInt(id || "0")
+        (p) => p.client_id === parseInt(id || "0")
       );
       setProjects(clientProjects);
       setLoading(false);

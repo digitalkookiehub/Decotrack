@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardContent } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";

@@ -25,12 +25,11 @@ interface Notification {
 export function NotificationPage() {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const fetchNotifications = () => {
     api.get("/notifications/?per_page=50")
-      .then((res) => { setNotifications(res.data.items); setTotal(res.data.total); })
+      .then((res) => { setNotifications(res.data.items); })
       .finally(() => setLoading(false));
   };
 

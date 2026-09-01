@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Check, X, Send, Camera, Truck, MapPin, Clock, Copy } from "lucide-react";
+import { ArrowLeft, Check, X, Send, Camera, Truck, MapPin, Copy } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Textarea } from "../../components/ui/textarea";
-import { Separator } from "../../components/ui/separator";
-import { StatusBadge } from "../../components/shared/StatusBadge";
 import { PageHeader } from "../../components/shared/PageHeader";
 import { LoadingSpinner } from "../../components/shared/LoadingSpinner";
 import { formatDateTime } from "../../lib/date";
@@ -139,7 +137,7 @@ export function DispatchDetailPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
           {/* Rejection banner */}
-          {dispatch.rejection_reason && (
+          {Boolean(dispatch.rejection_reason) && (
             <div className="rounded-md bg-red-50 border border-red-200 p-3">
               <p className="text-sm text-red-800"><strong>Rejected:</strong> {dispatch.rejection_reason as string}</p>
             </div>
@@ -284,8 +282,8 @@ export function DispatchDetailPage() {
                               <div className="p-2 text-xs">
                                 <p className="font-medium">{p.item_reference as string}</p>
                                 <p className="text-gray-500">{formatDateTime(p.captured_at as string)}</p>
-                                {p.gps_available && <p className="text-gray-400"><MapPin className="h-3 w-3 inline mr-1" />{Number(p.gps_lat).toFixed(4)}, {Number(p.gps_lng).toFixed(4)}</p>}
-                                {p.notes && <p className="text-gray-600 italic mt-1">{p.notes as string}</p>}
+                                {Boolean(p.gps_available) && <p className="text-gray-400"><MapPin className="h-3 w-3 inline mr-1" />{Number(p.gps_lat).toFixed(4)}, {Number(p.gps_lng).toFixed(4)}</p>}
+                                {Boolean(p.notes) && <p className="text-gray-600 italic mt-1">{p.notes as string}</p>}
                               </div>
                             </div>
                           );
@@ -314,7 +312,7 @@ export function DispatchDetailPage() {
                               <div className="p-2 text-xs">
                                 <p className="font-medium">{p.item_reference as string}</p>
                                 <p className="text-gray-500">{formatDateTime(p.captured_at as string)}</p>
-                                {p.gps_available && <p className="text-gray-400"><MapPin className="h-3 w-3 inline mr-1" />{Number(p.gps_lat).toFixed(4)}, {Number(p.gps_lng).toFixed(4)}</p>}
+                                {Boolean(p.gps_available) && <p className="text-gray-400"><MapPin className="h-3 w-3 inline mr-1" />{Number(p.gps_lat).toFixed(4)}, {Number(p.gps_lng).toFixed(4)}</p>}
                                 {flagged && (
                                   <p className="text-amber-600 font-medium mt-1">⚠ {Math.round(distanceM as number)}m from delivery address</p>
                                 )}
@@ -337,7 +335,7 @@ export function DispatchDetailPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Delivery Link */}
-          {dispatch.delivery_token && ["IN_TRANSIT", "DELIVERY_VERIFICATION"].includes(status) && (
+          {Boolean(dispatch.delivery_token) && ["IN_TRANSIT", "DELIVERY_VERIFICATION"].includes(status) && (
             <Card className="border-indigo-200">
               <CardHeader><CardTitle className="text-base">Driver Delivery Link</CardTitle></CardHeader>
               <CardContent>
@@ -351,7 +349,7 @@ export function DispatchDetailPage() {
                 }}>
                   <Copy className="h-3 w-3 mr-1" />Copy Link
                 </Button>
-                {dispatch.token_expires_at && (
+                {Boolean(dispatch.token_expires_at) && (
                   <p className="text-[10px] text-gray-400 mt-2">Expires: {formatDateTime(dispatch.token_expires_at as string)}</p>
                 )}
               </CardContent>
@@ -377,7 +375,7 @@ export function DispatchDetailPage() {
                       <div className="text-xs">
                         <p className="font-medium">{(log.action as string).replace(/_/g, " ")}</p>
                         <p className="text-gray-500">by {log.performer_name as string}</p>
-                        {log.comments && <p className="text-gray-600 italic">"{log.comments as string}"</p>}
+                        {Boolean(log.comments) && <p className="text-gray-600 italic">"{log.comments as string}"</p>}
                         <p className="text-gray-400">{formatDateTime(log.created_at as string)}</p>
                       </div>
                     </div>
@@ -388,7 +386,7 @@ export function DispatchDetailPage() {
           </Card>
 
           {/* Challan */}
-          {dispatch.challan_url && (
+          {Boolean(dispatch.challan_url) && (
             <Card>
               <CardHeader><CardTitle className="text-base">Delivery Challan</CardTitle></CardHeader>
               <CardContent>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Play, Send, Download, Ruler } from "lucide-react";
 import { Button } from "../../components/ui/button";
@@ -87,7 +87,7 @@ export function ElevationPage() {
     try {
       const { jsPDF } = await import("jspdf");
       const pdf = new jsPDF("p", "mm", "a4");
-      const pw = 210; const ph = 297; const m = 10;
+      const pw = 210; const m = 10;
 
       // Title
       pdf.setFontSize(16); pdf.setFont("helvetica", "bold");
