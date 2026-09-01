@@ -47,6 +47,8 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       CRM_API_KEYS: ${CRM_API_KEYS:-}
       CRM_ALLOWED_ORIGINS: ${CRM_ALLOWED_ORIGINS:-}
+    volumes:
+      - backend_uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -63,3 +65,4 @@ services:
 volumes:
   postgres_data:
   minio_data:
+  backend_uploads:
