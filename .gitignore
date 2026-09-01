@@ -39,6 +39,10 @@ minio_data/
 backend/uploads/
 screenshots/
 
+# GitHub Actions workflow — needs a token with `workflow` scope to push;
+# excluded for now, add back once that's granted (see README/commit history)
+.github/workflows/ci.yml
+
 # Coverage
 htmlcov/
 .coverage
