@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Plus, Trash2, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";
@@ -37,12 +37,14 @@ interface LineItem {
 
 export function POCreatePage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [vendorId, setVendorId] = useState("");
   const [notes, setNotes] = useState("");
   const [items, setItems] = useState<LineItem[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const prefilledRef = useRef(false);
 
   useEffect(() => {
     api
@@ -52,11 +54,28 @@ export function POCreatePage() {
     api
       .get("/raw-materials?per_page=100")
       .then((res) => {
-        const items = res.data.items || [];
-        setMaterials(items);
+        const materialItems: Material[] = res.data.items || [];
+        setMaterials(materialItems);
+
+        const materialParam = searchParams.get("material");
+        if (materialParam && !prefilledRef.current) {
+          const material = materialItems.find((m) => m.id === parseInt(materialParam));
+          if (material) {
+            prefilledRef.current = true;
+            setItems([{
+              raw_material_id: material.id,
+              material_name: material.name,
+              material_unit: material.unit,
+              current_stock: material.current_stock,
+              last_purchase_rate: material.last_purchase_rate,
+              quantity: "",
+              rate: String(material.last_purchase_rate),
+            }]);
+          }
+        }
       })
       .catch((err) => toast.error("Failed to load materials: " + (err.response?.status || err.message)));
-  }, []);
+  }, [searchParams]);
 
   const addItem = () => {
     setItems([
